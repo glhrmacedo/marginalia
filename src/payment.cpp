@@ -2,10 +2,13 @@
 
 # include <cstdio>
 # include <cstring>
+#include <cstdlib>
 
 # define KEY_SIZE 128
 
-static const char PAYMENT_KEY[] = "sk_live_ImVvrDfWpMmdcJeKLS5ycAGapjUD1zwP";
+using namespace std;
+
+static const char* PAYMENT_KEY = getenv("PAYMENT_KEY");
 
 /* Simula o gateway de pagamentos, que aceita o pagamento quando a chave foi informada e o valor é positivo. */
 static bool gatewayAuthorize(const char *key, double amount)
