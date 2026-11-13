@@ -47,19 +47,19 @@ Payment of 139.23 authorized
 
 | Comando | Descrição |
 |---|---|
-| `customer <id> <discount> <name>` | Abre o pedido do cliente |
-| `author <id> <M or F> <name>` | Cadastra um autor |
-| `book <id> <author_id> <price> <title>` | Cadastra um livro |
-| `add <book_id> <quantity>` | Adiciona um livro ao pedido |
-| `remove <book_id>` | Remove um livro do pedido |
-| `invoice` | Mostra o pedido, com o total já descontado |
-| `pay` | Paga o total do pedido |
+| <code>customer&nbsp;&lt;id&gt;&nbsp;&lt;discount&gt;&nbsp;&lt;name&gt;</code> | Abre o pedido do cliente identificado por `id`, com o percentual de desconto e o nome informados |
+| <code>author&nbsp;&lt;id&gt;&nbsp;&lt;M&nbsp;or&nbsp;F&gt;&nbsp;&lt;name&gt;</code> | Cadastra o autor identificado por `id`, com o gênero, M ou F, e o nome informados |
+| <code>book&nbsp;&lt;id&gt;&nbsp;&lt;author_id&gt;&nbsp;&lt;price&gt;&nbsp;&lt;title&gt;</code> | Cadastra o livro identificado por `id`, vinculado a um autor, com o preço e o título informados |
+| <code>add&nbsp;&lt;book_id&gt;&nbsp;&lt;quantity&gt;</code> | Adiciona ao pedido o livro identificado por `book_id`, com a quantidade informada |
+| <code>remove&nbsp;&lt;book_id&gt;</code> | Remove do pedido o livro identificado por `book_id`, com toda a quantidade incluída |
+| <code>invoice</code> | Mostra o pedido, com os dados do cliente, o desconto e o total já descontado |
+| <code>pay</code> | Envia o total do pedido ao gateway de pagamentos, que autoriza ou recusa o pagamento |
 
 As linhas vazias e as linhas que começam com `#` são ignoradas, e as respostas de erro começam sempre com `Error`.
 
-## Regras
+## Regras de negócio
 
-| Código | Regra |
+| Código | Descrição |
 |---|---|
 | RN-01 | O nome do autor é armazenado com no máximo 47 bytes, e o gênero do autor assume exclusivamente os valores M, para masculino, ou F, para feminino. |
 | RN-02 | O título do livro é armazenado com no máximo 63 bytes, e o preço do livro corresponde a um valor monetário não negativo, expresso em reais. |
