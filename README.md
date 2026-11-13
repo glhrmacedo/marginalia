@@ -9,7 +9,7 @@
 
 O Marginália é usado no balcão da livraria para cadastrar autores e livros, montar o pedido de cada cliente e enviar o pagamento ao gateway. O software lê um comando por linha da entrada padrão e responde a cada um com uma única linha. O código-fonte é escrito em C++17, usa apenas a biblioteca padrão e mantém uma classe por entidade do domínio: `Author`, `Book`, `Customer` e `Invoice`.
 
-## Construção
+## Build
 
 ```sh
 git clone <endereço do repositório>
@@ -61,31 +61,25 @@ As linhas vazias e as linhas que começam com `#` são ignoradas, e as respostas
 
 | Código | Regra |
 |---|---|
-| RN-01 | O nome do autor é armazenado com no máximo 47 bytes, e o gênero assume apenas os valores M ou F. |
-| RN-02 | O título do livro é armazenado com no máximo 63 bytes, e o preço corresponde a um valor não negativo. |
-| RN-03 | O desconto do cliente corresponde a um percentual inteiro, compreendido entre 0 e 100, inclusive. |
-| RN-04 | A quantidade de cada livro incluído no pedido corresponde a um número inteiro estritamente positivo. |
-| RN-05 | O pedido comporta no máximo 10 livros distintos, e cada um deles figura no pedido uma única vez. |
-| RN-06 | As credenciais de serviços externos obedecem às boas práticas de gestão e de proteção de segredos. |
+| RN-01 | O nome do autor é armazenado com no máximo 47 bytes, e o gênero do autor assume exclusivamente os valores M, para masculino, ou F, para feminino. |
+| RN-02 | O título do livro é armazenado com no máximo 63 bytes, e o preço do livro corresponde a um valor monetário não negativo, expresso em reais. |
+| RN-03 | O desconto do cliente corresponde a um percentual inteiro, compreendido entre 0 e 100, inclusive, e incide sobre o valor total do pedido. |
+| RN-04 | A quantidade de cada livro incluído no pedido corresponde a um número inteiro estritamente positivo, e quantidades nulas ou negativas são rejeitadas. |
+| RN-05 | O pedido comporta no máximo 10 livros distintos, e cada livro figura no pedido uma única vez, independentemente da quantidade solicitada. |
+| RN-06 | As credenciais de serviços externos obedecem às boas práticas de gestão e de proteção de segredos, durante todo o ciclo de vida do software. |
 
 ## Testes
 
 ```sh
-build/tests            # executa os testes de unidade
-build/tests --list     # lista os testes
+build/tests            # testes de unidade
+build/tests --list     # lista os testes de unidade
+make sanitizers        # testes de unidade compilados com ASan e UBSan
+make valgrind          # testes de unidade executados sob o Valgrind
+make sast              # SAST com o Semgrep, sobre o código-fonte em src/
+make dast              # DAST com casos hostis, executados contra build/marginalia
 ```
 
-## Verificações
-
-```sh
-make sast              # SAST, revisão de software automatizada com o Semgrep (pipx install semgrep==1.182.1)
-make sanitizers        # testes de software compilados com ASan e UBSan
-make valgrind          # testes de software executados sob o Valgrind (sudo apt-get update && sudo apt-get install -y valgrind)
-make dast              # DAST, testes de software com casos hostis executados contra build/marginalia
-```
-
-> [!NOTE]
-> Em kernels Linux recentes, inclusive nos runners do GitHub Actions, o ASan pode falhar ao iniciar com a mensagem `AddressSanitizer:DEADLYSIGNAL`. Nesse caso, execute `sudo sysctl -w vm.mmap_rnd_bits=28` antes de `make sanitizers`.
+O SAST exige o Semgrep 1.182.1, instalado com `pipx install semgrep==1.182.1`, e os testes sob o Valgrind exigem o Valgrind, instalado com `sudo apt-get update && sudo apt-get install -y valgrind`.
 
 ## Utilitários
 
